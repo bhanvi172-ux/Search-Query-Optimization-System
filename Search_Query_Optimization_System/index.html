@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Query Optimization & Analysis System</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--panel2:#17223a;--text:#edf2ff;--muted:#9eabc7;--accent:#7c9cff;--cyan:#58e1d4;--line:#293754;--good:#4ade80;--warn:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17264a 0,#0b1020 52%);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);min-height:100vh}
+.wrap{max-width:1180px;margin:auto;padding:28px 20px 50px}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:24px}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:800}.hero h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:10px 0}.hero p{color:var(--muted);max-width:700px;line-height:1.6;margin:0}.pill{border:1px solid #405078;background:#1b2947;padding:9px 13px;border-radius:99px;color:#cbd8ff;font-size:12px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.stat,.panel{background:linear-gradient(145deg,rgba(23,34,58,.97),rgba(15,23,41,.97));border:1px solid var(--line);border-radius:16px}.stat{padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:8px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.panel{padding:20px;margin-bottom:16px}.panel h2{font-size:17px;margin:0 0 7px}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 17px}
+.searchbar{display:flex;gap:9px}.searchbar input{flex:1;min-width:0}.field,input,select{background:#0b1326;color:var(--text);border:1px solid #344563;border-radius:10px;padding:12px;font:inherit;outline:none}.field:focus,input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff22}button{border:0;border-radius:10px;background:var(--accent);color:#081126;font-weight:800;padding:12px 16px;cursor:pointer;transition:.15s}button:hover{transform:translateY(-1px);filter:brightness(1.08)}button.secondary{background:#263653;color:#dbe5ff;border:1px solid #3b4d6d}button.small{padding:7px 10px;font-size:12px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.options label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}.options select{width:100%}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.chip{background:#202e4c;border:1px solid #344563;color:#c7d5f4;padding:6px 9px;border-radius:8px;font-size:12px;cursor:pointer}.result-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.result{border:1px solid #2c3b59;background:#0d162a;padding:13px;border-radius:12px;margin:9px 0;display:flex;justify-content:space-between;gap:15px}.result h3{margin:0 0 5px;font-size:14px}.result p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.tag{font-size:11px;color:var(--cyan);border:1px solid #285c65;padding:4px 7px;border-radius:7px;height:max-content;white-space:nowrap}.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed #344563;border-radius:12px}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.metric{background:#0d162a;border-radius:10px;padding:12px}.metric span{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:19px;margin-top:6px}.barrow{display:grid;grid-template-columns:105px 1fr 42px;align-items:center;gap:9px;margin:13px 0;font-size:12px;color:var(--muted)}.bar{height:9px;background:#263550;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--cyan));width:0;transition:width .5s}.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:10px 6px}.table th{color:var(--muted);font-weight:600}.complexity{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.algo{background:#0d162a;border:1px solid #293a59;border-radius:10px;padding:12px}.algo strong{font-size:13px}.algo code{display:block;color:var(--cyan);font-size:12px;margin:8px 0}.algo p{color:var(--muted);font-size:11px;line-height:1.5;margin:0}.history-item{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.history-item span{color:var(--muted)}.footer{text-align:center;color:#7181a3;font-size:12px;margin-top:18px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.hero{display:block}.pill{display:inline-block;margin-top:14px}.complexity{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:420px){.searchbar{flex-direction:column}.options{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}}
+</style></head>
+<body><main class="wrap">
+<header class="hero"><div><h1>Search Query Optimization<br>& Analysis System</h1><p>Explore how search strategies retrieve relevant records, compare algorithm performance, and inspect time complexity using a sample product-and-article dataset.</p></div><div class="pill">● LIVE ALGORITHM DEMO</div></header>
+<section class="stats">
+<div class="stat"><small>Dataset records</small><strong id="datasetCount">24</strong></div><div class="stat"><small>Last search comparisons</small><strong id="comparisonsTop">—</strong></div><div class="stat"><small>Search duration</small><strong id="durationTop">—</strong></div><div class="stat"><small>Matched records</small><strong id="matchesTop">—</strong></div>
+</section>
+<div class="layout"><section>
+<div class="panel"><h2>01 / Search workspace</h2><p class="sub">Enter a query, choose an algorithm, and see results plus the work performed.</p>
+<div class="searchbar"><input id="query" placeholder="Try: wireless, algorithm, laptop..." aria-label="Search query"><button id="searchBtn">Search ↗</button></div>
+<div class="options"><div><label for="algorithm">Search algorithm</label><select id="algorithm"><option value="linear">Linear Search</option><option value="binary">Binary Search (sorted index)</option><option value="hash">Hash Lookup (exact title)</option><option value="optimized">Optimized Search (filter + rank)</option></select></div><div><label for="field">Search in</label><select id="field"><option value="all">All fields</option><option value="title">Title only</option><option value="category">Category only</option><option value="description">Description only</option></select></div></div>
+<div class="toolbar"><button class="secondary small" id="clearBtn">Clear</button><button class="secondary small" id="randomBtn">Surprise me</button><button class="secondary small" id="showAllBtn">Show all records</button></div>
+<div class="chips"><span class="chip" data-q="wireless">wireless</span><span class="chip" data-q="algorithm">algorithm</span><span class="chip" data-q="laptop">laptop</span><span class="chip" data-q="data">data</span><span class="chip" data-q="design">design</span></div>
+</div>
+<div class="panel"><div class="result-head"><div><h2>02 / Search results</h2><p class="sub" style="margin:5px 0 0" id="resultSummary">Run a query to inspect matching records.</p></div><span class="tag" id="resultTag">READY</span></div><div id="results"><div class="empty">Your results will appear here.<br>Try searching for <b>wireless</b> or <b>algorithm</b>.</div></div></div>
+</section><aside>
+<div class="panel"><h2>03 / Performance analysis</h2><p class="sub">Metrics update after every search. Duration is a browser-side demo measurement and can vary between runs.</p><div class="metric-grid"><div class="metric"><span>Comparisons</span><strong id="comparisons">—</strong></div><div class="metric"><span>Elapsed</span><strong id="duration">—</strong></div><div class="metric"><span>Results</span><strong id="matches">—</strong></div></div>
+<div style="margin-top:20px"><div class="barrow"><span>Linear scan</span><div class="bar"><i id="linearBar"></i></div><b id="linearVal">—</b></div><div class="barrow"><span>Binary search</span><div class="bar"><i id="binaryBar"></i></div><b id="binaryVal">—</b></div><div class="barrow"><span>Hash lookup</span><div class="bar"><i id="hashBar"></i></div><b id="hashVal">—</b></div></div><p class="sub" id="analysisNote" style="margin:17px 0 0">Run a query to generate a comparison across algorithms.</p></div>
+<div class="panel"><h2>04 / Dataset laboratory</h2><p class="sub">Change the dataset size to see how algorithms behave as the number of records grows.</p><div class="options"><div><label for="datasetSize">Dataset size</label><select id="datasetSize"><option value="24">24 sample records</option><option value="100">100 records</option><option value="1000">1,000 records</option><option value="5000">5,000 records</option><option value="10000">10,000 records</option></select></div><div style="display:flex;align-items:end"><button id="generateBtn" style="width:100%">Generate dataset</button></div></div><div class="toolbar"><button class="secondary small" id="resetDatasetBtn">Restore sample data</button></div><p id="datasetMessage" class="sub" style="margin:12px 0 0">Original sample dataset loaded.</p></div>
+<div class="panel"><h2>05 / Benchmark all algorithms</h2><p class="sub">Runs all four algorithms with the same query and compares average work and execution time.</p><div class="options"><div><label for="benchmarkQuery">Benchmark query</label><input id="benchmarkQuery" value="wireless" style="width:100%"></div><div><label for="benchmarkRuns">Repeated runs</label><select id="benchmarkRuns"><option value="5">5 runs</option><option value="20" selected>20 runs</option><option value="50">50 runs</option></select></div></div><div class="toolbar"><button id="benchmarkBtn">Run benchmark</button></div><div id="benchmarkResults" style="margin-top:14px"><div class="empty">Run a benchmark to compare all algorithms.</div></div></div>
+<div class="panel"><h2>06 / Search history</h2><p class="sub">Your recent searches during this browser session.</p><div id="historyList" class="empty">No searches yet.</div></div>
+<div class="panel"><h2>07 / Complexity cheat sheet</h2><p class="sub">Big-O describes how work grows as dataset size increases.</p><div class="complexity"><div class="algo"><strong>Linear Search</strong><code>O(n)</code><p>Checks records one by one. Works on unsorted data.</p></div><div class="algo"><strong>Binary Search</strong><code>O(log n)</code><p>Repeatedly halves a sorted index. Best for exact lookup.</p></div><div class="algo"><strong>Hash Lookup</strong><code>O(1) avg.</code><p>Uses a hash map for exact keys; collisions can add work.</p></div></div></div>
+<div class="panel"><h2>08 / How optimization helps</h2><p class="sub">A practical search pipeline can normalize text, narrow candidates, rank matches, and return the most relevant items.</p><table class="table"><thead><tr><th>Technique</th><th>Purpose</th></tr></thead><tbody><tr><td>Normalization</td><td>Ignore case and extra spaces</td></tr><tr><td>Indexing</td><td>Reduce records scanned</td></tr><tr><td>Ranking</td><td>Exact title matches first</td></tr><tr><td>Early exit</td><td>Stop once exact match found</td></tr></tbody></table></div>
+</aside></div><div class="footer">Search Query Optimization & Analysis System · DAA Mini Project · Runs locally in your browser</div>
+</main>
+<script>
+let data=[
+["Wireless Noise-Cancelling Headphones","Electronics","Wireless audio with noise cancellation and long battery life."],
+["Wireless Mouse Pro","Electronics","Ergonomic wireless mouse for productivity and design work."],
+["Laptop Stand Aluminium","Accessories","Adjustable laptop stand for a better desk setup."],
+["Algorithm Design Handbook","Books","A practical guide to algorithm analysis, complexity and problem solving."],
+["Data Structures Made Simple","Books","Learn arrays, trees, graphs, hashing and search algorithms."],
+["Web Design Fundamentals","Learning","Principles of interface design, layout, colour and accessibility."],
+["Introduction to Data Science","Learning","Explore data cleaning, analysis, visualization and machine learning."],
+["Mechanical Gaming Keyboard","Electronics","Responsive keyboard with mechanical switches and backlighting."],
+["Laptop Backpack","Accessories","Padded backpack designed to protect laptops while travelling."],
+["Search Engine Optimization Basics","Learning","Improve content discovery with keywords, metadata and indexing."],
+["Wireless Earbuds","Electronics","Compact wireless earbuds for calls, music and daily travel."],
+["Java Programming Guide","Books","Core Java concepts, object-oriented programming and examples."],
+["Database Systems","Books","Relational databases, SQL queries, indexes and query optimization."],
+["Frontend Design Patterns","Learning","Reusable UI patterns for accessible and responsive web apps."],
+["Graph Algorithms","Books","Shortest paths, traversal, spanning trees and graph analysis."],
+["Data Analytics Toolkit","Software","Tools for exploring datasets, building reports and measuring trends."],
+["Portable Laptop Charger","Electronics","Compact power bank for compatible laptops and mobile devices."],
+["Search Algorithm Visualizer","Software","Interactive visualizer for linear, binary and hash search."],
+["Cloud Computing Essentials","Learning","Core cloud services, deployment patterns and distributed systems."],
+["Smart Fitness Watch","Electronics","Fitness tracking, notifications and activity summaries."],
+["Query Performance Monitor","Software","Analyze query latency, comparison counts and search performance."],
+["UI Design Starter Kit","Design","Interface components, typography and responsive layout templates."],
+["Python for Data Analysis","Books","Use Python to load, transform and analyze structured data."],
+["Wireless Presentation Clicker","Accessories","Wireless remote for presentations and classroom teaching."]
+].map((r,i)=>({id:i+1,title:r[0],category:r[1],description:r[2]}));
+const sampleData=data.map(x=>({...x}));
+let searchHistory=[];
+const $=id=>document.getElementById(id);
+const normalize=s=>s.toLowerCase().trim().replace(/\s+/g," ");
+const fieldText=(item,field)=>field==="title"?item.title:field==="category"?item.category:field==="description"?item.description:[item.title,item.category,item.description].join(" ");
+let lastResults=[];
+function renderResults(items,query){lastResults=items;$("results").innerHTML=items.length?items.map((x,i)=>`<article class="result"><div><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.description)}</p><p style="margin-top:6px">ID #${x.id} · ${escapeHtml(x.category)}</p></div><span class="tag">${query?`MATCH ${i+1}`:"RECORD"}</span></article>`).join(""):'<div class="empty">No matching records. Try a broader keyword.</div>';$("resultSummary").textContent=`${items.length} record${items.length===1?"":"s"} found${query?` for “${query}”`:""}.`;$("resultTag").textContent=items.length?"COMPLETE":"NO MATCH";}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function search(){
+ const q=normalize($("query").value), algo=$("algorithm").value, field=$("field").value;
+ if(!q){$("query").focus();$("analysisNote").textContent="Enter a search term to begin.";return;}
+ const start=performance.now();let comparisons=0,results=[];
+ if(algo==="linear"){
+  for(const item of data){comparisons++;if(normalize(fieldText(item,field)).includes(q))results.push(item);}
+ }else if(algo==="binary"){
+  // Binary search is meaningful for exact title lookup; use a sorted title index and then substring scan if no exact key.
+  const sorted=[...data].sort((a,b)=>normalize(a.title).localeCompare(normalize(b.title)));
+  let lo=0,hi=sorted.length-1,found=-1;
+  while(lo<=hi){const mid=Math.floor((lo+hi)/2);comparisons++;const v=normalize(sorted[mid].title);if(v===q){found=mid;break;}if(v<q)lo=mid+1;else hi=mid-1;}
+  if(found>=0)results=[sorted[found]];
+  else {for(const item of sorted){comparisons++;if(normalize(fieldText(item,field)).includes(q))results.push(item);}}
+ }else if(algo==="hash"){
+  const index=new Map(data.map(x=>[normalize(x.title),x]));
+  comparisons=1;const exact=index.get(q);if(exact)results=[exact];
+  else {for(const item of data){comparisons++;if(normalize(fieldText(item,field)).includes(q))results.push(item);}}
+ }else{
+  // Optimization pipeline: normalize query, narrow via first-character candidate buckets, then rank by match quality.
+  const candidates=data.filter(item=>normalize(fieldText(item,field)).includes(q[0]));comparisons=candidates.length;
+  results=candidates.filter(item=>{comparisons++;return normalize(fieldText(item,field)).includes(q);});
+  results.sort((a,b)=>{const score=x=>{const t=normalize(x.title);return t===q?4:t.startsWith(q)?3:t.includes(q)?2:1};return score(b)-score(a)||a.title.localeCompare(b.title);});
+ }
+ const elapsed=performance.now()-start;const ms=elapsed<1?`<1 ms`:`${elapsed.toFixed(2)} ms`;
+ $("comparisons").textContent=comparisons;$("comparisonsTop").textContent=comparisons;$("duration").textContent=ms;$("durationTop").textContent=ms;$("matches").textContent=results.length;$("matchesTop").textContent=results.length;
+ renderResults(results,q);
+ const linear=data.length, binary=Math.ceil(Math.log2(data.length+1)), hash=1, max=linear;
+ [["linear",linear],["binary",binary],["hash",hash]].forEach(([name,val])=>{$(name+"Bar").style.width=Math.max(5,val/max*100)+"%";$(name+"Val").textContent=val;});
+ const notes={linear:`Linear Search scanned records sequentially. It is flexible for partial matches, but its work can grow with dataset size.`,binary:`Binary Search used a sorted title index for exact matching. For partial text matches, it falls back to scanning the records; that fallback is included in the comparison count.`,hash:`Hash Lookup checks an exact-title map first. If the query is not an exact title, it falls back to a scan to support partial matching.`,optimized:`Optimized Search narrows candidates using the first query character, filters them, then ranks matches. This demo illustrates the pipeline; real-world gains depend on dataset and index design.`};
+ $("analysisNote").textContent=notes[algo];
+}
+$("searchBtn").addEventListener("click",search);$("query").addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+$("clearBtn").addEventListener("click",()=>{$("query").value="";$("results").innerHTML='<div class="empty">Your results will appear here.<br>Try searching for <b>wireless</b> or <b>algorithm</b>.</div>';$("resultSummary").textContent="Run a query to inspect matching records.";$("resultTag").textContent="READY";["comparisons","duration","matches","comparisonsTop","durationTop","matchesTop"].forEach(id=>$(id).textContent="—");$("analysisNote").textContent="Run a query to generate a comparison across algorithms.";["linear","binary","hash"].forEach(n=>{$(n+"Bar").style.width="0";$(n+"Val").textContent="—";});});
+$("randomBtn").addEventListener("click",()=>{const terms=["wireless","algorithm","laptop","data","design","search","query","cloud"];$("query").value=terms[Math.floor(Math.random()*terms.length)];search();});
+$("showAllBtn").addEventListener("click",()=>renderResults(data,""));document.querySelectorAll(".chip").forEach(el=>el.addEventListener("click",()=>{$("query").value=el.dataset.q;search();}));
+
+function addHistory(q,algo,count){
+ if(!$("historyList")) return;
+ searchHistory.unshift({q,algo,count,time:new Date().toLocaleTimeString()});searchHistory=searchHistory.slice(0,8);
+ $("historyList").className="";$("historyList").innerHTML=searchHistory.map(h=>`<div class="history-item"><div><b>${escapeHtml(h.q)}</b><br><span>${escapeHtml(h.algo)} · ${h.count} matches</span></div><span>${h.time}</span></div>`).join("");
+}
+function generateDataset(){
+ const size=Number($("datasetSize").value),titles=["Wireless Mouse","Algorithm Handbook","Laptop Stand","Data Science Guide","Search Engine Toolkit","Query Monitor","Web Design Kit","Graph Algorithms","Cloud Computing Guide","Wireless Earbuds","Database Systems","Python Analytics"],cats=["Electronics","Books","Software","Learning","Accessories"];
+ data=Array.from({length:size},(_,i)=>{const title=titles[i%titles.length],category=cats[i%cats.length];return {id:i+1,title:`${title} ${Math.floor(i/titles.length)+1}`,category,description:`Sample record ${i+1} about ${title.toLowerCase()}, search techniques, data analysis and optimization.`};});
+ $("datasetCount").textContent=data.length;$("datasetMessage").textContent=`Generated ${size.toLocaleString()} records. Run a search or benchmark against this dataset.`;
+ $("results").innerHTML='<div class="empty">Dataset updated. Run a search to view matches.</div>';$("resultSummary").textContent="Run a query to inspect matching records.";$("resultTag").textContent="READY";
+}
+function restoreDataset(){
+ data=sampleData.map(x=>({...x}));$("datasetSize").value="24";$("datasetCount").textContent=data.length;$("datasetMessage").textContent="Restored the original 24 sample records.";
+ $("results").innerHTML='<div class="empty">Your results will appear here. Try searching for <b>wireless</b> or <b>algorithm</b>.</div>';
+}
+function runBenchmark(){
+ const q=normalize($("benchmarkQuery").value);if(!q){$("benchmarkQuery").focus();return;}
+ const runs=Number($("benchmarkRuns").value),algos=[["linear","Linear Search"],["binary","Binary Search"],["hash","Hash Lookup"],["optimized","Optimized Search"]];
+ const rows=algos.map(([key,name])=>{let total=0,comparisons=0,count=0;for(let i=0;i<runs;i++){const start=performance.now();let c=0,res=[];
+  if(key==="linear"){for(const item of data){c++;if(normalize(fieldText(item,"all")).includes(q))res.push(item);}}
+  else if(key==="binary"){const sorted=[...data].sort((a,b)=>normalize(a.title).localeCompare(normalize(b.title)));let lo=0,hi=sorted.length-1,found=-1;while(lo<=hi){const mid=Math.floor((lo+hi)/2);c++;const v=normalize(sorted[mid].title);if(v===q){found=mid;break;}if(v<q)lo=mid+1;else hi=mid-1;}if(found>=0)res=[sorted[found]];else for(const item of sorted){c++;if(normalize(fieldText(item,"all")).includes(q))res.push(item);}}
+  else if(key==="hash"){const idx=new Map(data.map(x=>[normalize(x.title),x]));c=1;const exact=idx.get(q);if(exact)res=[exact];else for(const item of data){c++;if(normalize(fieldText(item,"all")).includes(q))res.push(item);}}
+  else{const cand=data.filter(item=>normalize(fieldText(item,"all")).includes(q[0]));c=cand.length;res=cand.filter(item=>{c++;return normalize(fieldText(item,"all")).includes(q);});}
+  total+=performance.now()-start;comparisons+=c;count=res.length;}
+ return {name,comparisons:Math.round(comparisons/runs),ms:total/runs,count};});
+ $("benchmarkResults").innerHTML=`<table class="table"><thead><tr><th>Algorithm</th><th>Avg. comparisons</th><th>Avg. time</th><th>Matches</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.name}</td><td>${r.comparisons.toLocaleString()}</td><td>${r.ms.toFixed(4)} ms</td><td>${r.count}</td></tr>`).join("")}</tbody></table><p class="sub" style="margin:12px 0 0">Timing varies by browser and device. Comparison counts are usually more stable than tiny timing differences.</p>`;
+}
+$("generateBtn")?.addEventListener("click",generateDataset);
+$("resetDatasetBtn")?.addEventListener("click",restoreDataset);
+$("benchmarkBtn")?.addEventListener("click",runBenchmark);
+
+$("datasetCount").textContent=data.length;
+</script></body></html>
